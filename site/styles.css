@@ -1,0 +1,405 @@
+
+/* Base Config */
+
+@import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Oswald:wght@200..700&family=Pacifico&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    background-color: #24252a;
+    color: #edf0f1;
+    font-family: "Bakbak One", sans-serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+body {
+    font-size: 1rem;
+}
+
+footer {
+    font: 1rem;
+}
+
+
+/* Config for small screens / phones */
+@media (max-width: 576px) {
+
+    body {
+        margin: 1.7rem;
+    }
+
+/* Header / Navbars Styles */
+
+    .header {
+        display: flex;
+        justify-content: center;
+        margin: 2rem;
+    }
+
+    .nav-list {
+        list-style: none;
+    }
+
+    .nav-list li {
+        display: inline-block;
+        padding: 0.2rem;
+    }
+
+/* Main component base config */
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+/* Style for avatar / image */
+
+    .main-avatar img {
+        width: 14rem;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+/* Style for my header name */
+
+    .main-header h1 {
+        font-size: 1.4rem;
+        color: rgb(184, 184, 184);
+    }
+
+/* Style for my summary */
+
+    .main-summary p {
+        font-size: 0.7rem;
+        text-align: justify;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+
+/* Style for contacts / socials */
+
+    .main-socials {
+        margin-bottom: 3rem;
+    }
+
+    .main-socials a {
+        text-decoration: none;
+    }
+
+/* Style for footer */
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-container p {
+        font-size: 0.5rem;
+        font-style: italic;
+    }
+}
+
+/* ################################################################# */
+/* ################################################################# */
+
+
+/* Config for medium screens / tablets */
+
+@media (min-width: 577px) and (max-width: 768px) {
+
+    body {
+        margin: 1.7rem;
+    }
+
+/* Header / Navbars Styles */
+
+    .header {
+        display: flex;
+        justify-content: center;
+        margin: 2rem;
+    }
+
+    .nav-list {
+        list-style: none;
+    }
+
+    .nav-list li {
+        display: inline-block;
+        padding: 0.2rem;
+    }
+
+/* Main component base config */
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+/* Style for avatar / image */
+
+    .main-avatar img {
+        width: 14rem;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+/* Style for my header name */
+
+    .main-header {
+        margin: 0rem 5.3rem;
+    }
+
+    .main-header h1 {
+        font-size: 1.4rem;
+        color: rgb(184, 184, 184);
+    }
+
+/* Style for my summary */
+
+    .main-summary p {
+        font-size: 0.7rem;
+        text-align: justify;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+
+/* Style for contacts / socials */
+
+    .main-socials {
+        margin-bottom: 3rem;
+    }
+
+    .main-socials a {
+        text-decoration: none;
+    }
+
+/* Style for footer */
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-container p {
+        font-size: 0.5rem;
+        font-style: italic;
+    }
+}
+
+/* ################################################################# */
+/* ################################################################# */
+
+
+/* Config for large screens / desktops */
+
+@media (min-width: 769px) and (max-width: 992px) {
+    body {
+        margin: 1.7rem;
+    }
+
+/* Header / Navbars Styles */
+
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        margin: 2rem;
+    }
+
+    .nav-list {
+        list-style: none;
+    }
+
+    .nav-list li {
+        display: inline-block;
+        padding: 0.2rem;
+    }
+
+    .nav-list li a {
+        text-decoration: none;
+        transition: all 0.3s ease 0s;
+    }
+
+    .nav-list li a:hover {
+        color: #0088a9;
+    }
+
+/* Main component base config */
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+/* Style for avatar / image */
+
+    .main-avatar img {
+        width: 14rem;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+/* Style for my header name */
+
+    .main-header {
+        margin: 0rem 13rem;
+    }
+
+    .main-header h1 {
+        font-size: 1.4rem;
+        color: rgb(184, 184, 184);
+    }
+
+/* Style for my summary */
+
+    .main-summary p {
+        font-size: 0.7rem;
+        text-align: justify;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+
+/* Style for contacts / socials */
+
+    .main-socials {
+        margin-bottom: 6.5rem;
+    }
+
+    .main-socials a {
+        text-decoration: none;
+    }
+
+/* Style for footer */
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-container p {
+        font-size: 0.5rem;
+        font-style: italic;
+    }
+}
+
+
+/* ################################################################# */
+/* ################################################################# */
+
+
+/* Config for large screens / desktops */
+
+@media (min-width: 993px) {
+    body {
+        margin: 1.7rem;
+    }
+
+/* Header / Navbars Styles */
+
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        margin: 2rem;
+    }
+
+    .nav-list {
+        list-style: none;
+    }
+
+    .nav-list li {
+        display: inline-block;
+        padding: 0.2rem;
+    }
+
+    .nav-list li a {
+        text-decoration: none;
+        transition: all 0.3s ease 0s;
+    }
+
+    .nav-list li a:hover {
+        color: #0088a9;
+    }
+
+/* Main component base config */
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        margin-left: 8rem;
+        margin-right: 8rem;
+    }
+    
+
+/* Style for avatar / image */
+
+    .main-avatar img {
+        width: 14rem;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+/* Style for my header name */
+
+    .main-header {
+        margin: 0rem 7.5rem;
+    }
+
+    .main-header h1 {
+        font-size: 2rem;
+        color: rgb(184, 184, 184);
+    }
+
+/* Style for my summary */
+
+    .main-summary p {
+        font-size: 1rem;
+        text-align: justify;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+
+/* Style for contacts / socials */
+
+    .main-socials {
+        margin-bottom: 10rem;
+    }
+
+    .main-socials a {
+        text-decoration: none;
+    }
+
+/* Style for footer */
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-container p {
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+}
