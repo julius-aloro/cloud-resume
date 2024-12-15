@@ -6,3 +6,13 @@ stages:
   - Invalidation
   - Testing
 
+variables:
+  AWS_DEFAULT_REGION: "ap-southeast-1"
+  base_url: juliusaloro.into-cloud.com
+
+Files Checkout:
+  image: registry.gitlab.com/julius.aloro/terraform-cicd/terraform:1.10
+  stage: Files Checkout
+  script:
+    - ls -ltr
+  
