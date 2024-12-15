@@ -1,0 +1,8 @@
+stages:
+  - Files Checkout
+  - Terraform Plan
+  - Terraform Apply
+  - Files Upload
+  - Invalidation
+  - Testing
+
