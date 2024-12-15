@@ -11,7 +11,7 @@ variables:
   base_url: juliusaloro.into-cloud.com
 
 Files Checkout:
-  image: registry.gitlab.com/my-cloud-resume/terraform:1.10
+  image: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
   stage: Files Checkout
   script:
     - ls -ltr
