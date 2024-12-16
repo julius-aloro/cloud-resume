@@ -17,7 +17,7 @@ terraform_version_check:
   stage: plan
   script:
     - terraform version
-    - pwd
+
 
 
 terraform_plan:
@@ -26,13 +26,13 @@ terraform_plan:
     entrypoint: [""]
   stage: plan
   script:
-    - cd infra/ && mkdir -p plans
+    - cd infra/
     - terraform init
-    - terraform plan -out=plans/$planfile
-    - terraform show plans/$planfile
+    - terraform plan -out=/$planfile
+    - terraform show $planfile
   artifacts:
     paths:
-      - infra/plans/$planfile
+      - infra/
     untracked: false
     when: on_success
     access: all
@@ -45,6 +45,7 @@ terraform_build:
     entrypoint: [""]
   stage: apply
   script:
-    - terraform apply -auto-approve infra/plans/$planfile 
+    - cd infra/
+    - ls -ltr
 
   
