@@ -7,8 +7,8 @@ stages:
 
 variables:
   AWS_DEFAULT_REGION: "ap-southeast-1"
-  base_url: juliusaloro.into-cloud.com
-  planfile: plan.tfplan
+  base_url: "juliusaloro.into-cloud.com"
+  planfile: "plan.tfplan"
 
 terraform_version_check:
   image:
@@ -28,7 +28,7 @@ terraform_plan:
   stage: plan
   script:
     - cd infra/
-    - mkdir plans
+    - mkdir -p plans
     - terraform init
     - terraform plan -out=plans/$planfile
     - terraform show plans/$planfile
@@ -38,5 +38,4 @@ terraform_plan:
     untracked: false
     when: on_success
     access: all
-    expire_in: "30 days"
   
