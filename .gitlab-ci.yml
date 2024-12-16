@@ -28,12 +28,13 @@ terraform_plan:
   stage: plan
   script:
     - cd infra/
+    - mkdir plans
     - terraform init
-    - terraform plan -out=$planfile
-    - terraform show $planfile
+    - terraform plan -out=plans/$planfile
+    - terraform show plans/$planfile
   artifacts:
     paths:
-      - infra/$planfile
+      - plans/$planfile
     untracked: false
     when: on_success
     access: all
