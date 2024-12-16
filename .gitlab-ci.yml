@@ -49,5 +49,5 @@ terraform_build:
   script:
     - cd infra/
     - terraform apply --auto-approve plan.tfplan
-
+    - ls -ltra
   
