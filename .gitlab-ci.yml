@@ -15,4 +15,5 @@ Files Checkout:
   stage: Files Checkout
   script:
     - ls -ltr
+    - ls -ltr infra
   
