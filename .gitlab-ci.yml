@@ -56,5 +56,6 @@ file_upload_to_s3:
   image: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
   stage: file_upload
   script:
-    - aws -version
+    - aws help
+    - ls -ltr
     
