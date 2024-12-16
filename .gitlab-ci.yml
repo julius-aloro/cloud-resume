@@ -27,9 +27,8 @@ terraform_plan:
     entrypoint: [""]
   stage: plan
   script:
-    - cd infra/
+    - cd infra/ && terraform init && cd ../
     - mkdir -p plans
-    - terraform init
     - terraform plan -out=plans/$planfile
     - terraform show plans/$planfile
   artifacts:
