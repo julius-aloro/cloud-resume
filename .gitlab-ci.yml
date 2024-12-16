@@ -29,11 +29,11 @@ terraform_plan:
   script:
     - cd infra/
     - terraform init
-    - terraform plan -out=../$planfile
-    - terraform show ../$planfile
+    - terraform plan -out=$planfile
+    - terraform show $planfile
   artifacts:
     paths:
-      - ../$planfile
+      - $planfile
     untracked: false
     when: on_success
     access: all
