@@ -30,7 +30,7 @@ terraform_plan:
     - cd infra/
     - terraform init
     - terraform plan -out=../$planfile
-    - cat ../$planfile
+    - terraform show ../$planfile
   artifacts:
     paths:
       - ../$planfile
