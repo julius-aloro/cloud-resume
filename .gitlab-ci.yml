@@ -10,8 +10,7 @@ variables:
   S3_BUCKET_NAME: "juliusaloro.into-cloud.com"
   PLANFILE: "plan.tfplan"
   
-
-# 1st Stage
+# 1st job (check/verify version of terraform used)
 
 terraform_version_check:
   image:
@@ -21,7 +20,7 @@ terraform_version_check:
   script:
     - terraform version
 
-# 2nd Stage
+# 2nd job (perform terraform plan, output planfile to be used in apply stage)
 
 terraform_plan:
   image:
@@ -40,6 +39,8 @@ terraform_plan:
     when: on_success
     access: all
 
+# 3rd job (perform terraform build)
+
 terraform_build:
   dependencies:
     - terraform_plan
@@ -50,8 +51,14 @@ terraform_build:
   script:
     - cd infra/
     - terraform apply --auto-approve $PLANFILE
+  artifacts:
+    paths:
+      - infra/
+    untracked: false
+    when: on_success
+    access: all
   
-  # 3rd stage
+# 4th job (Upload files to s3 [site folder])
 
 file_upload_to_s3:
   image: 
@@ -59,6 +66,8 @@ file_upload_to_s3:
    entrypoint: [""]
   stage: file_upload
   script:
-    - aws s3 cp site/ s3://$S3_BUCKET_NAME/ --recursive
+    - aws s3 cp site/ s3://$S3_BUCKET_NAME/ --recursive   # Copy all contents of site folder recursively (use --recursive instead of wildcard *)
     - aws s3 ls s3://$S3_BUCKET_NAME/ | grep -i index.html
-    
+
+# create invalidation
+# output cloudfront distribution name and variablize
