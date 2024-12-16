@@ -30,8 +30,8 @@ terraform_plan:
   script:
     - cd infra/
     - terraform init
-    - terraform plan -out=$planfile
-    - terraform show $planfile
+    - terraform plan -out=$PLANFILE
+    - terraform show $PLANFILE
   artifacts:
     paths:
       - infra/
@@ -48,7 +48,7 @@ terraform_build:
   stage: apply
   script:
     - cd infra/
-    - terraform apply --auto-approve plan.tfplan
+    - terraform apply --auto-approve $PLANFILE
   
   # 3rd stage
 
