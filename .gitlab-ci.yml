@@ -17,8 +17,6 @@ terraform_version_check:
   stage: plan
   script:
     - terraform version
-    - cd infra
-    - ls -ltr
 
 
 terraform_plan:
@@ -29,11 +27,12 @@ terraform_plan:
     entrypoint: [""]
   stage: plan
   script:
-    - terraform plan -out=$planfile
-    - cat $planfile
+    - cd infra/
+    - terraform plan -out=../$planfile
+    - cat ../$planfile
   artifacts:
     paths:
-      - $planfile
+      - ../$planfile
     untracked: false
     when: on_success
     access: all
