@@ -8,12 +8,29 @@ stages:
 variables:
   AWS_DEFAULT_REGION: "ap-southeast-1"
   base_url: juliusaloro.into-cloud.com
+  planfile: plan.tfplan
 
-terraform_apply:
+terraform_version_check:
   image:
     name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
     entrypoint: [""]
   stage: plan
   script:
     - terraform version
+
+terraform_plan:
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+    entrypoint: [""]
+  stage: plan
+  script:
+    - terraform plan -out=$planfile
+    - cat $planfile
+  artifacts:
+    paths:
+      - $planfile
+    untracked: false
+    when: on_success
+    access: all
+    expire_in: "30 days"
   
