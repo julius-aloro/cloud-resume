@@ -9,6 +9,7 @@ variables:
   AWS_DEFAULT_REGION: "ap-southeast-1"
   S3_BUCKET_NAME: "juliusaloro.into-cloud.com"
   PLANFILE: "plan.tfplan"
+  
 
 # 1st Stage
 
@@ -53,7 +54,9 @@ terraform_build:
   # 3rd stage
 
 file_upload_to_s3:
-  image: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+  image: 
+   name: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+   entrypoint: [""]
   stage: file_upload
   script:
     - aws --version
