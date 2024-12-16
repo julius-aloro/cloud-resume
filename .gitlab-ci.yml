@@ -45,6 +45,6 @@ terraform_build:
     entrypoint: [""]
   stage: apply
   script:
-    - terraform apply auto-approve infra/plans/$planfile 
+    - ls -ltr
 
   
