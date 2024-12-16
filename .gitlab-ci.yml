@@ -33,7 +33,7 @@ terraform_plan:
     - terraform show $planfile
   artifacts:
     paths:
-      - $planfile
+      - infra/$planfile
     untracked: false
     when: on_success
     access: all
