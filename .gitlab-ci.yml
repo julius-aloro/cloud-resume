@@ -17,24 +17,25 @@ terraform_version_check:
   stage: plan
   script:
     - terraform version
+    - pwd
 
 
-terraform_plan:
-  dependencies:
-    - terraform_version_check
-  image:
-    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
-    entrypoint: [""]
-  stage: plan
-  script:
-    - cd infra/ && terraform init && cd ../
-    - mkdir -p plans
-    - terraform plan -out=plans/$planfile
-    - terraform show plans/$planfile
-  artifacts:
-    paths:
-      - plans/$planfile
-    untracked: false
-    when: on_success
-    access: all
+# terraform_plan:
+#   dependencies:
+#     - terraform_version_check
+#   image:
+#     name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+#     entrypoint: [""]
+#   stage: plan
+#   script:
+#     - cd infra/ && terraform init && cd ../
+#     - mkdir -p plans
+#     - terraform plan -out=plans/$planfile
+#     - terraform show plans/$planfile
+#   artifacts:
+#     paths:
+#       - plans/$planfile
+#     untracked: false
+#     when: on_success
+#     access: all
   
