@@ -1,19 +1,19 @@
 stages:
-  - Files Checkout
-  - Terraform Plan
-  - Terraform Apply
-  - Files Upload
-  - Invalidation
-  - Testing
+  - plan
+  - apply
+  - file_upload
+  - invalidation
+  - testing
 
 variables:
   AWS_DEFAULT_REGION: "ap-southeast-1"
   base_url: juliusaloro.into-cloud.com
 
-Files Checkout:
-  image: registry.gitlab.com/julius.aloro/my-cloud-resume/ubuntu:22.04
-  stage: Files Checkout
+terraform_apply:
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+    entrypoint: [""]
+  stage: plan
   script:
-    - ls -ltr
-    - ls -ltr infra
+    - terraform version
   
