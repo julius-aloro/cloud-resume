@@ -10,6 +10,8 @@ variables:
   base_url: "juliusaloro.into-cloud.com"
   planfile: "plan.tfplan"
 
+# 1st Stage
+
 terraform_version_check:
   image:
     name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
@@ -18,7 +20,7 @@ terraform_version_check:
   script:
     - terraform version
 
-
+# 2nd Stage
 
 terraform_plan:
   image:
@@ -46,6 +48,6 @@ terraform_build:
   stage: apply
   script:
     - cd infra/
-    - ls -ltr
+    - terraform apply --auto-approve plan.tfplan
 
   
