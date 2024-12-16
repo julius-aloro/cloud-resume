@@ -17,8 +17,13 @@ terraform_version_check:
   stage: plan
   script:
     - terraform version
+    - cd infra
+    - ls -ltr
+
 
 terraform_plan:
+  dependencies:
+    - terraform_version_check
   image:
     name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
     entrypoint: [""]
