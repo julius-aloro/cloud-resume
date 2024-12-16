@@ -7,8 +7,8 @@ stages:
 
 variables:
   AWS_DEFAULT_REGION: "ap-southeast-1"
-  base_url: "juliusaloro.into-cloud.com"
-  planfile: "plan.tfplan"
+  S3_BUCKET_NAME: "juliusaloro.into-cloud.com"
+  PLANFILE: "plan.tfplan"
 
 # 1st Stage
 
@@ -49,5 +49,12 @@ terraform_build:
   script:
     - cd infra/
     - terraform apply --auto-approve plan.tfplan
-    - ls -ltra
   
+  # 3rd stage
+
+file_upload_to_s3:
+  image: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+  stage: file_upload
+  script:
+    - aws -version
+    
