@@ -51,6 +51,8 @@ terraform_build:
   script:
     - cd infra/
     - terraform apply --auto-approve $PLANFILE
+    - terraform output -json > outputs.json
+    - cat outputs.json
   artifacts:
     paths:
       - infra/
