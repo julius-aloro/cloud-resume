@@ -70,11 +70,10 @@ file_upload_to_s3:
   script:
     - yum install jq -y
     - export S3_BUCKET_NAME=$(jq -r ".s3_bucket_id.value" infra/outputs.json)
-    - echo $S3_BUCKET_NAME
-    - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps   # sync all contents of site folder recursively
-    - echo "Displaying uploaded files..."
+    - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps > invalidate.file
+    - echo "Displaying S3 bucket files..."
     - aws s3 ls s3://$S3_BUCKET_NAME/
-    - cat infra/outputs.json
+    - cat invalidate.file
 
 # create invalidation
 # output cloudfront distribution name and variablize
