@@ -1,6 +1,10 @@
+locals {
+  base_url = "juliusaloro.into-cloud.com"
+}
+
 # S3 Bucket Creation
 resource "aws_s3_bucket" "my-bucket" {
-  bucket = "juliusaloro.into-cloud.com"
+  bucket = local.base_url
 }
 
 # Configure S3 as static website hosting
@@ -36,7 +40,7 @@ resource "aws_s3_bucket_policy" "my-bucket-policy" {
           "Service" : "cloudfront.amazonaws.com"
         },
         "Action" : "s3:GetObject",
-        "Resource" : "arn:aws:s3:::juliusaloro.into-cloud.com/*",
+        "Resource" : "arn:aws:s3:::${local.base_url}/*",
         "Condition" : {
           "StringEquals" : {
             "AWS:SourceArn" : var.policy_principal
