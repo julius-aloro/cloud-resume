@@ -74,7 +74,7 @@ file_upload_to_s3:
     - echo "Displaying S3 bucket files..."
     - aws s3 ls s3://$S3_BUCKET_NAME/
 
-s3_invalidation:
+cloudfront_invalidation:
   dependencies:
     - terraform_build
   image:
@@ -84,6 +84,7 @@ s3_invalidation:
   script:
     - yum install jq -y
     - export CLOUDFRONT_DISTRIBUTION_ID=$(jq -r ".cloudfront_distribution_id" infra/outputs.json)
+    - echo $CLOUDFRONT_DISTRIBUTION_ID
     - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
 
 
