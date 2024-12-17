@@ -39,3 +39,15 @@ module "route_53_domain" {
   alias_domain_name = module.cloudfront-distribution.cf_domain_name
   alias_hosted_zone = module.cloudfront-distribution.cf_hosted_zone
 }
+
+
+### outputs
+
+# CloudFront ID
+output "cloudfront_distribution_id" {
+  value = module.cloudfront-distribution.cloudfront_distribution_id
+}
+
+output "s3_bucket_id" {
+  value = module.s3_bucket.bucket-id
+}

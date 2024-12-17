@@ -1,18 +1,100 @@
 stages:
-  - Files Checkout
-  - Terraform Plan
-  - Terraform Apply
-  - Files Upload
-  - Invalidation
-  - Testing
+  - plan
+  - apply
+  - file_upload
+  - invalidation
+  - destroy
 
 variables:
-  AWS_DEFAULT_REGION: "ap-southeast-1"
-  base_url: juliusaloro.into-cloud.com
-
-Files Checkout:
-  image: registry.gitlab.com/julius.aloro/my-cloud-resume/ubuntu:22.04
-  stage: Files Checkout
-  script:
-    - ls -ltr
+  PLANFILE: "plan.tfplan"
   
+# 1st job (check/verify version of terraform used)
+
+terraform_version_check:
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+    entrypoint: [""]
+  stage: plan
+  script:
+    - terraform version
+
+# 2nd job (perform terraform plan, output planfile to be used in apply stage)
+
+terraform_plan:
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+    entrypoint: [""]
+  stage: plan
+  script:
+    - cd infra/
+    - terraform init
+    - terraform plan -out=$PLANFILE
+    - terraform show $PLANFILE
+  artifacts:
+    paths:
+      - infra/
+    untracked: false
+    when: on_success
+    access: all
+
+# 3rd job (perform terraform build)
+
+terraform_build:
+  dependencies:
+    - terraform_plan
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+    entrypoint: [""]
+  stage: apply
+  script:
+    - cd infra/
+    - terraform apply --auto-approve $PLANFILE
+    - terraform output -json > outputs.json
+    - cat outputs.json
+  artifacts:
+    paths:
+      - infra/
+    untracked: false
+    when: on_success
+    access: all
+  
+# 4th job (Upload files to s3 [site folder])
+
+file_upload_to_s3:
+  dependencies:
+    - terraform_build
+  image: 
+   name: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+   entrypoint: [""]
+  stage: file_upload
+  script:
+    - yum install jq -y
+    - export S3_BUCKET_NAME=$(jq -r ".s3_bucket_id.value" infra/outputs.json)
+    - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps
+    - echo "Displaying S3 bucket files..."
+    - aws s3 ls s3://$S3_BUCKET_NAME/
+
+cloudfront_invalidation:
+  dependencies:
+    - terraform_build
+  image:
+   name: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+   entrypoint: [""]
+  stage: invalidation
+  script:
+    - yum install jq -y
+    - export CLOUDFRONT_DISTRIBUTION_ID=$(jq -r ".cloudfront_distribution_id.value" infra/outputs.json)
+    - echo $CLOUDFRONT_DISTRIBUTION_ID
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
+terraform_destroy:
+  dependencies:
+    - terraform_build
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
+    entrypoint: [""]
+  stage: destroy
+  when: manual
+  script:
+    - cd infra/
+    - terraform destroy -auto-approve
