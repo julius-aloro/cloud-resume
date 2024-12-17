@@ -66,8 +66,9 @@ file_upload_to_s3:
    entrypoint: [""]
   stage: file_upload
   script:
-    - aws s3 cp site/ s3://$S3_BUCKET_NAME/ --recursive   # Copy all contents of site folder recursively (use --recursive instead of wildcard *)
-    - aws s3 ls s3://$S3_BUCKET_NAME/ | grep -i index.html
+    - aws s3 sync . s3://$S3_BUCKET_NAME/ --delete --exact-timestamps   # sync all contents of site folder recursively
+    - echo "Displaying uploaded files..."
+    - aws s3 ls s3://$S3_BUCKET_NAME/
 
 # create invalidation
 # output cloudfront distribution name and variablize
