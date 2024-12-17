@@ -47,3 +47,7 @@ module "route_53_domain" {
 output "cloudfront_distribution_id" {
   value = module.cloudfront-distribution.cloudfront_distribution_id
 }
+
+output "s3_bucket_id" {
+  value = module.s3_bucket.bucket-id
+}
