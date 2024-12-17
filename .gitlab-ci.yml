@@ -87,7 +87,7 @@ cloudfront_invalidation:
     - echo $CLOUDFRONT_DISTRIBUTION_ID
     - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
 
-terrform_desatroy:
+terraform_destroy:
   dependencies:
     - terraform_build
   image:
