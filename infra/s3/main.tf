@@ -5,6 +5,8 @@ locals {
 # S3 Bucket Creation
 resource "aws_s3_bucket" "my-bucket" {
   bucket = local.base_url
+
+  force_destroy = true
 }
 
 # Configure S3 as static website hosting
