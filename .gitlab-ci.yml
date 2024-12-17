@@ -7,10 +7,6 @@ stages:
 
 variables:
   PLANFILE: "plan.tfplan"
-
-cache:
-  paths:
-    - site/
   
 # 1st job (check/verify version of terraform used)
 
@@ -21,7 +17,6 @@ terraform_version_check:
   stage: plan
   script:
     - terraform version
-    - stat site/*
 
 # 2nd job (perform terraform plan, output planfile to be used in apply stage)
 
@@ -35,7 +30,6 @@ terraform_plan:
     - terraform init
     - terraform plan -out=$PLANFILE
     - terraform show $PLANFILE
-    - stat ../site/*
   artifacts:
     paths:
       - infra/
@@ -57,7 +51,6 @@ terraform_build:
     - terraform apply --auto-approve $PLANFILE
     - terraform output -json > outputs.json
     - cat outputs.json
-    - - stat ../site/*
   artifacts:
     paths:
       - infra/
@@ -75,13 +68,24 @@ file_upload_to_s3:
    entrypoint: [""]
   stage: file_upload
   script:
-    - stat site/*
     - yum install jq -y
     - export S3_BUCKET_NAME=$(jq -r ".s3_bucket_id.value" infra/outputs.json)
-    - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps > invalidate.file
+    - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps
     - echo "Displaying S3 bucket files..."
     - aws s3 ls s3://$S3_BUCKET_NAME/
-    - cat invalidate.file
+
+s3_invalidation:
+  dependencies:
+    - terraform_build
+  image:
+   name: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+   entrypoint: [""]
+  stage: invalidation
+  script:
+    - yum install jq -y
+    - export CLOUDFRONT_DISTRIBUTION_ID=$(jq -r ".cloudfront_distribution_id" infra/outputs.json)
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
 
 # create invalidation
 # output cloudfront distribution name and variablize
