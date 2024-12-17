@@ -6,8 +6,6 @@ stages:
   - testing
 
 variables:
-  AWS_DEFAULT_REGION: "ap-southeast-1"
-  S3_BUCKET_NAME: "juliusaloro.into-cloud.com"
   PLANFILE: "plan.tfplan"
   
 # 1st job (check/verify version of terraform used)
@@ -63,6 +61,8 @@ terraform_build:
 # 4th job (Upload files to s3 [site folder])
 
 file_upload_to_s3:
+  dependencies:
+    - terraform_build
   image: 
    name: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
    entrypoint: [""]
@@ -71,6 +71,7 @@ file_upload_to_s3:
     - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps   # sync all contents of site folder recursively
     - echo "Displaying uploaded files..."
     - aws s3 ls s3://$S3_BUCKET_NAME/
+    - cat infra/outputs.json
 
 # create invalidation
 # output cloudfront distribution name and variablize
