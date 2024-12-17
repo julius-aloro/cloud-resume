@@ -7,6 +7,10 @@ stages:
 
 variables:
   PLANFILE: "plan.tfplan"
+
+cache:
+  paths:
+    - site/
   
 # 1st job (check/verify version of terraform used)
 
