@@ -66,7 +66,7 @@ file_upload_to_s3:
    entrypoint: [""]
   stage: file_upload
   script:
-    - aws s3 sync . s3://$S3_BUCKET_NAME/ --delete --exact-timestamps   # sync all contents of site folder recursively
+    - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps   # sync all contents of site folder recursively
     - echo "Displaying uploaded files..."
     - aws s3 ls s3://$S3_BUCKET_NAME/
 
