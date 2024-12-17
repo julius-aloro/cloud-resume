@@ -17,6 +17,7 @@ terraform_version_check:
   stage: plan
   script:
     - terraform version
+    - stat site/*
 
 # 2nd job (perform terraform plan, output planfile to be used in apply stage)
 
@@ -30,6 +31,7 @@ terraform_plan:
     - terraform init
     - terraform plan -out=$PLANFILE
     - terraform show $PLANFILE
+    - stat ../site/*
   artifacts:
     paths:
       - infra/
@@ -51,6 +53,7 @@ terraform_build:
     - terraform apply --auto-approve $PLANFILE
     - terraform output -json > outputs.json
     - cat outputs.json
+    - - stat ../site/*
   artifacts:
     paths:
       - infra/
@@ -68,6 +71,7 @@ file_upload_to_s3:
    entrypoint: [""]
   stage: file_upload
   script:
+    - stat site/*
     - yum install jq -y
     - export S3_BUCKET_NAME=$(jq -r ".s3_bucket_id.value" infra/outputs.json)
     - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps > invalidate.file
