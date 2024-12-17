@@ -87,13 +87,13 @@ cloudfront_invalidation:
     - echo $CLOUDFRONT_DISTRIBUTION_ID
     - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
 
-terraform_destroy:
+terrform_desatroy:
   dependencies:
     - terraform_build
   image:
     name: registry.gitlab.com/julius.aloro/my-cloud-resume/terraform:1.10
     entrypoint: [""]
-  stage: testing
+  stage: destroy
   when: manual
   script:
     - terraform destroy -auto-approve
