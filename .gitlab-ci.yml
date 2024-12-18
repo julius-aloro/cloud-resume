@@ -73,6 +73,15 @@ file_upload_to_s3:
     - aws s3 sync site/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps
     - echo "Displaying S3 bucket files..."
     - aws s3 ls s3://$S3_BUCKET_NAME/
+    - echo $S3_BUCKET_NAME > S3_BUCKET_NAME.var
+  artifacts:
+    paths:
+      - S3_BUCKET_NAME.var
+    untracked: false
+    when: on_success
+    access: all
+
+# 5th job (Cloud Front Invalidation to update cache)
 
 cloudfront_invalidation:
   dependencies:
@@ -86,6 +95,22 @@ cloudfront_invalidation:
     - export CLOUDFRONT_DISTRIBUTION_ID=$(jq -r ".cloudfront_distribution_id.value" infra/outputs.json)
     - echo $CLOUDFRONT_DISTRIBUTION_ID
     - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
+# 6th job (s3 bucket cleanup in preparation for destroy)
+
+s3_bucket_cleanup:
+  dependencies:
+    - file_upload_to_s3
+  image:
+    name: registry.gitlab.com/julius.aloro/my-cloud-resume/amazon/aws-cli:2.22.14
+    entrypoint: [""]
+  stage: destroy
+  when: manual
+  script:
+    - S3_BUCKET_NAME=$(cat S3_BUCKET_NAME.var)
+    - aws s3 rm s3://$S3_BUCKET_NAME/ --recursive
+
+# 7th job (destroy aws resources)
 
 terraform_destroy:
   dependencies:
