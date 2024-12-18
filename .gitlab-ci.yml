@@ -121,6 +121,5 @@ terraform_destroy:
   stage: destroy
   when: manual
   script:
-    - aws s3 rm s3://$S3_BUCKET_NAME/ --recursive
     - cd infra/
     - terraform destroy -auto-approve
